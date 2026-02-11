@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Logits / Sigmoid / Softmax 解説</title>
+  
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/headings.css">
+  <link rel="stylesheet" href="../css/math.css" >
+
+  <!-- MathJax（数式を使うページだけ） -->
+  <script src="../js/mathjax.js"></script>
+</head>
+
+<body>
+<h1>分類ヘッドにおける数値から確率への変換</h1>
+
+<p>
+分類ネットワークの最終層では、実数値を確率として解釈可能な値へ変換する処理が行われる。
+(最終層のノード数を1つとした)二値分類などで用いられるのが sigmoid 関数で、
+これは実数値を 0 から 1 の範囲に写像する。
+sigmoid の逆関数として定義されるのが logit 関数であり、この関係から、
+sigmoid 適用前の実数値はロジット値と呼ばれることがある。
+一方、複数クラスのうちいずれか一つを選択するような分類問題では、
+複数の実数値を総和が 1 となる確率分布に変換するために softmax 関数が用いられる。
+</p>
+
+<h2>Sigmoid 関数</h2>
+
+<p>
+二値分類において、logit $x$ から確率 $p$ を得る写像は
+</p>
+
+$$
+p = \sigma(x) = \frac{1}{1 + e^{-x}}
+$$
+
+<figure>
+  <img src="plots/sigmoid.png" alt="sigmoid">
+  <figcaption>sigmoid(x)：logit → 確率</figcaption>
+</figure>
+
+<h2>Logit（逆関数）</h2>
+
+<p>
+sigmoid の逆写像は logit 関数であり、
+確率 $p \in (0,1)$ を実数全体に写す：
+</p>
+
+$$
+\text{logit}(p) = \log \frac{p}{1-p}
+$$
+
+<figure>
+  <img src="plots/logit.png" alt="logit">
+  <figcaption>logit(p)：確率 → log-odds</figcaption>
+</figure>
+
+<h2>Softmax（多クラス）</h2>
+
+<p>
+クラス数 $C$ の分類では、logits
+$\mathbf{z} = (z_1, \dots, z_C)$ に対して
+softmax を適用する：
+</p>
+
+$$
+p_i = \frac{e^{z_i}}{\sum_{j=1}^C e^{z_j}}
+$$
+
+<figure>
+  <img src="plots/softmax_3class.png" alt="softmax">
+  <figcaption>logits を1次元で変化させたときの softmax 確率</figcaption>
+</figure>
+
+<h2>なぜ logits を使うのか</h2>
+
+<ul>
+  <li>数値安定性（$\log(0)$ を避けられる）</li>
+  <li>Cross Entropy を簡潔な形で書ける</li>
+  <li>勾配が安定する</li>
+</ul>
+
+<p>
+そのため実装では <code>CrossEntropyLoss(logits, y)</code>
+のように、softmax を含めた形で定義される。
+</p>
+
+</body>
+</html>

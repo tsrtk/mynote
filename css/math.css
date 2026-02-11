@@ -1,0 +1,11 @@
+// [css/math.css]
+
+/* display 数式の上下余白 */
+mjx-container {
+  margin: 1em 0;
+}
+
+/* display 数式を中央寄せ */
+mjx-container[jax="CHTML"][display="true"] {
+  text-align: center;
+}

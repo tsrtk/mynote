@@ -1,0 +1,32 @@
+/* [css/headings.css]
+ * =========================
+   見出し番号（章立て）
+   h2: 1, 2, 3, ...
+   h3: 1.1, 1.2, ...
+   ========================= */
+
+/* h2 用カウンタ初期化 */
+body {
+  counter-reset: section;
+}
+
+/* h2 が始まるたびに h3 をリセット */
+h2 {
+  counter-reset: subsection;
+}
+
+/* h2: 1. , 2. , ... */
+h2::before {
+  counter-increment: section;
+  content: counter(section) ". ";
+  font-weight: 600;
+  margin-right: 0.4em;
+}
+
+/* h3: 1.1 , 1.2 , ... */
+h3::before {
+  counter-increment: subsection;
+  content: counter(section) "." counter(subsection) " ";
+  font-weight: 600;
+  margin-right: 0.4em;
+}
