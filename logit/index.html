@@ -93,6 +93,21 @@ $$
   <li><strong>$t = 0$ で $p_0$ と $p_1$ が交わる</strong>：どちらも logit が 0 なので等しく、$p_0 = p_1 \approx 0.42$、$p_2 \approx 0.16$。</li>
 </ol>
 
+<h3>比較：logits $= [t,\ 0,\ 0]$ の場合</h3>
+
+<figure>
+  <img src="plots/softmax_3class_symmetric.png" alt="softmax symmetric">
+  <figcaption>logits $= [t,\ 0,\ 0]$：class1 と class2 の logit がどちらも 0 で等しいとき</figcaption>
+</figure>
+
+<ul>
+  <li>class1 と class2 は logit が等しいので、$p_1 = p_2$ がいつも成り立ち、2本の線は重なる。</li>
+  <li>$t = 0$ では3つとも logit が 0 なので、$p_0 = p_1 = p_2 = 1/3$。</li>
+  <li>$t \to -\infty$（class0 が見込みなし）では、残りの2クラスが確率を分け合い、$p_1 = p_2 \to 1/2$。
+      上の $[t,\ 0,\ -1]$ の場合は、同じ極限で $p_1 \to 1/(1+e^{-1}) \approx 0.73$、$p_2 \approx 0.27$ となり、
+      ここでも比 $p_1 / p_2 = e$ が保たれている。</li>
+</ul>
+
 <h3>logit は差だけが効く（平行移動の不変性）</h3>
 
 <p>
@@ -113,6 +128,38 @@ $$
 正解が class0 なら損失は $-\log p_0$。グラフで $t$ を右へ動かす（正解クラスの logit を上げる）ほど $p_0 \to 1$、損失 $\to 0$。
 訓練とは、正解クラスの logit を<strong>他のクラスとの差が開く方向</strong>へ押し上げることである。
 </p>
+
+<h2>二値 Cross Entropy と logit</h2>
+
+<p>
+二値分類（正解ラベル $y \in \{0, 1\}$、確率 $p = \sigma(x)$）の Cross Entropy は
+</p>
+
+$$
+L = -\,y \log p \;-\; (1-y) \log (1-p)
+$$
+
+<p>
+これを logit $x$ で書き直すと、次のように簡潔になる：
+</p>
+
+$$
+y = 1 :\ L = \log\left(1 + e^{-x}\right), \qquad
+y = 0 :\ L = \log\left(1 + e^{x}\right)
+$$
+
+<figure>
+  <img src="plots/binary_ce_vs_logit.png" alt="binary cross-entropy vs logit">
+  <figcaption>二値 Cross Entropy を logit $x$ の関数として描いたもの（青：正解が1、橙：正解が0）</figcaption>
+</figure>
+
+<ul>
+  <li><strong>正しく、自信をもって当てている</strong>とき（$y=1$ で $x$ が大きい）は、損失はほぼ 0。</li>
+  <li><strong>間違えている</strong>とき（$y=1$ で $x$ が負）は、損失は $|x|$ にほぼ比例して増える。
+      確率 $p$ で書くと $-\log p$ は $p \to 0$ で発散するが、logit で書けば直線的に増えるだけで、数値的に安定している。</li>
+  <li>勾配はとても単純な形になる：$\dfrac{\partial L}{\partial x} = \sigma(x) - y = p - y$。
+      「予測 − 正解」がそのまま修正量になる（多クラスの softmax + Cross Entropy でも同じ形）。</li>
+</ul>
 
 <h2>なぜ logits を使うのか</h2>
 
