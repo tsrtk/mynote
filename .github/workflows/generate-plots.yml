@@ -1,0 +1,39 @@
+name: Generate Plots
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'logit/plot.py'
+      - 'requirements.txt'
+      - '.github/workflows/generate-plots.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate plots
+        run: python logit/plot.py
+
+      - name: Commit and push generated plots
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add --force logit/plots/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: regenerate plots" && git push)
