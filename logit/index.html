@@ -81,16 +81,16 @@ $$
 </p>
 
 $$
-p_0 = rac{e^{t}}{e^{t} + e^{0} + e^{-1}}, \quad
-p_1 = rac{e^{0}}{e^{t} + e^{0} + e^{-1}}, \quad
-p_2 = rac{e^{-1}}{e^{t} + e^{0} + e^{-1}}
+p_0 = \frac{e^{t}}{e^{t} + e^{0} + e^{-1}}, \quad
+p_1 = \frac{e^{0}}{e^{t} + e^{0} + e^{-1}}, \quad
+p_2 = \frac{e^{-1}}{e^{t} + e^{0} + e^{-1}}
 $$
 
 <ol>
   <li><strong>合計はいつも 1</strong>：$t$ を上げて $p_0$ が 1 に近づくと、残りの2つは両方とも 0 に向かって減る。拘束は「合計 1」の一つだけ。</li>
-  <li><strong>$p_1$ と $p_2$ の比は $t$ によらず一定</strong>：$p_1 / p_2 = e^{0} / e^{-1} = e pprox 2.72$。
+  <li><strong>$p_1$ と $p_2$ の比は $t$ によらず一定</strong>：$p_1 / p_2 = e^{0} / e^{-1} = e \approx 2.72$。
       class0 がどう動いても、class1 と class2 の力関係は変わらない（分母が共通なので、比には logit の差だけが残る）。</li>
-  <li><strong>$t = 0$ で $p_0$ と $p_1$ が交わる</strong>：どちらも logit が 0 なので等しく、$p_0 = p_1 pprox 0.42$、$p_2 pprox 0.16$。</li>
+  <li><strong>$t = 0$ で $p_0$ と $p_1$ が交わる</strong>：どちらも logit が 0 なので等しく、$p_0 = p_1 \approx 0.42$、$p_2 \approx 0.16$。</li>
 </ol>
 
 <h3>logit は差だけが効く（平行移動の不変性）</h3>
@@ -100,7 +100,7 @@ $$
 </p>
 
 $$
-rac{e^{z_i + c}}{\sum_j e^{z_j + c}} = rac{e^{z_i}}{\sum_j e^{z_j}}
+\frac{e^{z_i + c}}{\sum_j e^{z_j + c}} = \frac{e^{z_i}}{\sum_j e^{z_j}}
 $$
 
 <p>
@@ -110,7 +110,7 @@ $$
 <h3>Cross Entropy とのつながり</h3>
 
 <p>
-正解が class0 なら損失は $-\log p_0$。グラフで $t$ を右へ動かす（正解クラスの logit を上げる）ほど $p_0 	o 1$、損失 $	o 0$。
+正解が class0 なら損失は $-\log p_0$。グラフで $t$ を右へ動かす（正解クラスの logit を上げる）ほど $p_0 \to 1$、損失 $\to 0$。
 訓練とは、正解クラスの logit を<strong>他のクラスとの差が開く方向</strong>へ押し上げることである。
 </p>
 
