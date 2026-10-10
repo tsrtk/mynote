@@ -15,6 +15,14 @@ import matplotlib
 matplotlib.use("Agg")  # no GUI backend
 import matplotlib.pyplot as plt
 
+# dark theme matched to css/base.css (--panel)
+plt.style.use("dark_background")
+plt.rcParams.update({
+    "figure.facecolor": "#1e2128",
+    "axes.facecolor": "#1e2128",
+    "savefig.facecolor": "#1e2128",
+})
+
 
 # ----------------------------
 # math helpers
@@ -48,8 +56,8 @@ plots_dir.mkdir(parents=True, exist_ok=True)
 x = np.linspace(-10, 10, 1000)
 plt.figure(figsize=(6, 4))
 plt.plot(x, sigmoid(x), label="sigmoid(x)")
-plt.axhline(0.5, color="k", lw=0.7, alpha=0.4)
-plt.axvline(0.0, color="k", lw=0.7, alpha=0.4)
+plt.axhline(0.5, color="0.8", lw=0.7, alpha=0.4)
+plt.axvline(0.0, color="0.8", lw=0.7, alpha=0.4)
 plt.ylim(-0.05, 1.05)
 plt.title("Sigmoid")
 plt.xlabel("x (logit)")
@@ -62,8 +70,8 @@ plt.close()
 p = np.linspace(1e-4, 1 - 1e-4, 1000)
 plt.figure(figsize=(6, 4))
 plt.plot(p, logit(p), label="logit(p)=log(p/(1-p))", color="#d55e00")
-plt.axhline(0.0, color="k", lw=0.7, alpha=0.4)
-plt.axvline(0.5, color="k", lw=0.7, alpha=0.4)
+plt.axhline(0.0, color="0.8", lw=0.7, alpha=0.4)
+plt.axvline(0.5, color="0.8", lw=0.7, alpha=0.4)
 plt.title("Logit (inverse of sigmoid)")
 plt.xlabel("p")
 plt.ylabel("x (log-odds)")
