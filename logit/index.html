@@ -71,8 +71,48 @@ $$
 
 <figure>
   <img src="plots/softmax_3class.png" alt="softmax">
-  <figcaption>logits を1次元で変化させたときの softmax 確率</figcaption>
+  <figcaption>logits $= [t,\ 0,\ -1]$：class0 の logit $t$ だけを動かし、class1 と class2 の logit は 0 と −1 に固定したときの3つの確率</figcaption>
 </figure>
+
+<h3>このグラフから読み取ること</h3>
+
+<p>
+固定しているのは<strong>確率ではなく logit</strong> である。3つの確率は
+</p>
+
+$$
+p_0 = rac{e^{t}}{e^{t} + e^{0} + e^{-1}}, \quad
+p_1 = rac{e^{0}}{e^{t} + e^{0} + e^{-1}}, \quad
+p_2 = rac{e^{-1}}{e^{t} + e^{0} + e^{-1}}
+$$
+
+<ol>
+  <li><strong>合計はいつも 1</strong>：$t$ を上げて $p_0$ が 1 に近づくと、残りの2つは両方とも 0 に向かって減る。拘束は「合計 1」の一つだけ。</li>
+  <li><strong>$p_1$ と $p_2$ の比は $t$ によらず一定</strong>：$p_1 / p_2 = e^{0} / e^{-1} = e pprox 2.72$。
+      class0 がどう動いても、class1 と class2 の力関係は変わらない（分母が共通なので、比には logit の差だけが残る）。</li>
+  <li><strong>$t = 0$ で $p_0$ と $p_1$ が交わる</strong>：どちらも logit が 0 なので等しく、$p_0 = p_1 pprox 0.42$、$p_2 pprox 0.16$。</li>
+</ol>
+
+<h3>logit は差だけが効く（平行移動の不変性）</h3>
+
+<p>
+すべての logit に同じ数 $c$ を足しても、確率は変わらない（分子と分母に $e^{c}$ が掛かって消える）：
+</p>
+
+$$
+rac{e^{z_i + c}}{\sum_j e^{z_j + c}} = rac{e^{z_i}}{\sum_j e^{z_j}}
+$$
+
+<p>
+だから他のクラスの logit を 0 に固定しても一般性は失われない。効いているのは logit どうしの<strong>差</strong>である。
+</p>
+
+<h3>Cross Entropy とのつながり</h3>
+
+<p>
+正解が class0 なら損失は $-\log p_0$。グラフで $t$ を右へ動かす（正解クラスの logit を上げる）ほど $p_0 	o 1$、損失 $	o 0$。
+訓練とは、正解クラスの logit を<strong>他のクラスとの差が開く方向</strong>へ押し上げることである。
+</p>
 
 <h2>なぜ logits を使うのか</h2>
 
