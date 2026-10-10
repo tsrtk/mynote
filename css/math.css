@@ -8,5 +8,5 @@ mjx-container {
 /* display 数式を中央寄せ */
 mjx-container[jax="CHTML"][display="true"] {
   text-align: center;
-  font-size: 500% !important;   /* 確認用に一時的に5倍。MathJaxが要素に直接書く font-size に勝つため !important */
+  font-size: 150% !important;   /* display 数式だけ大きく。MathJaxが要素に直接書く font-size に勝つため !important */
 }
