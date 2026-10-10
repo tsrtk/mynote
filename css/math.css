@@ -8,4 +8,5 @@ mjx-container {
 /* display 数式を中央寄せ */
 mjx-container[jax="CHTML"][display="true"] {
   text-align: center;
+  font-size: 125%;   /* display 数式だけ少し大きく（本文中の数式は変えない） */
 }
